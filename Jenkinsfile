@@ -6,7 +6,7 @@ pipeline {
                 echo 'Check for the working status'
             }
         }
-        stage('developing'){
+        stag('developing'){
             steps{
                 echo "checked from deploying and completed"
                 echo"check completed"
@@ -17,6 +17,15 @@ pipeline {
                 echo "deployed successfully"
                 echo "this is a testing success"
             }
+        }
+    }
+    post {
+        success {
+            echo '✅ Pipeline completed successfully!'
+        }
+
+        failure {
+            echo '❌ Pipeline failed! Check the Jenkins console output.'
         }
     }
 }
