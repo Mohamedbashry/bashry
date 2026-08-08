@@ -6,7 +6,7 @@ pipeline {
                 echo 'Check for the working status'
             }
         }
-        stag('developing'){
+        stage('developing'){
             steps{
                 echo "checked from deploying and completed"
                 echo"check completed"
