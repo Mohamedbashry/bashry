@@ -9,7 +9,7 @@ pipeline {
         stage('developing'){
             steps{
                 echo "checked from deploying and completed"
-                echo"check completed for release"
+                echo"check completed"
             }
         }
         stage('deploy'){
