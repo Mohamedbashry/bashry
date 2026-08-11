@@ -6,10 +6,10 @@ pipeline {
                 echo 'Check for the working status'
             }
         }
-        stage('developing'){
-            steps{
-                echo "checked from deploying and completed"
-                echo"check completed"
+        stage('Build') {
+            steps {
+                sh 'docker build -t bashry/dockerapp:latest .'
+                echo 'build successfully!!!'
             }
         }
         stage('Deploy') {
@@ -20,16 +20,14 @@ pipeline {
                     docker run -d --name dockerapp-container -p 3000:3000 bashry/dockerapp:latest
                 '''
             }
-}
+        }
     }
     post {
         success {
             echo '✅ Pipeline completed successfully!'
         }
-
         failure {
             echo '❌ Pipeline failed! Check the Jenkins console output.'
         }
     }
 }
-
