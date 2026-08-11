@@ -12,12 +12,15 @@ pipeline {
                 echo"check completed"
             }
         }
-        stage('deploy'){
-            steps{
-                echo "deployed successfully!!"
-                echo "this is a testing success"
+        stage('Deploy') {
+            steps {
+                sh '''
+                    docker stop dockerapp-container || true
+                    docker rm dockerapp-container || true
+                    docker run -d --name dockerapp-container -p 3000:3000 bashry/dockerapp:latest
+                '''
             }
-        }
+}
     }
     post {
         success {
