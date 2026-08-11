@@ -2,7 +2,7 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm install --omit=dev && npm cache clean --force   # changed from npm ci
 
 # ---- runtime: only what you need to run ----
 FROM node:20-alpine AS production
