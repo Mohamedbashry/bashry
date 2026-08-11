@@ -1,30 +1,18 @@
-# ---- Build stage ----
-FROM node:20-alpine AS build
-
+# ---- deps: install prod packages only ----
+FROM node:20-alpine AS deps
 WORKDIR /app
-
-# Copy only manifest files first for better layer caching
 COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
 
-RUN npm install
-
-# Now copy the rest of the source and build (if you have a build step)
-COPY . .
-# RUN npm run build   # uncomment if this is a TS/React/etc project with a build step
-
-# ---- Production stage ----
+# ---- runtime: only what you need to run ----
 FROM node:20-alpine AS production
-
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Copy only package files, then install prod-only deps fresh (smaller than copying node_modules over)
+COPY --from=deps /app/node_modules ./node_modules
 COPY package*.json ./
-RUN npm ci --omit=dev
-
-# Copy built app from the build stage (adjust path if you have a dist/ build output)
-COPY --from=build /app .
+COPY index.js ./
+COPY public ./public
 
 EXPOSE 3000
-
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
