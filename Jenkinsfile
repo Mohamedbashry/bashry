@@ -19,8 +19,7 @@ pipeline {
                     docker run -d --name dockerapp-container -p 3000:3000 --env-file /home/ubuntu/bashry/.env bashry/dockerapp:latest
                 '''
             }
-    }
-}
+        }
     }
     post {
         success {
