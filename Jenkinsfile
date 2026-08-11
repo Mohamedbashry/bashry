@@ -9,7 +9,6 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'docker build -t bashry/dockerapp:latest .'
-                echo 'build successfully!!!'
             }
         }
         stage('Deploy') {
