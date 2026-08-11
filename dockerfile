@@ -6,7 +6,7 @@ WORKDIR /app
 # Copy only manifest files first for better layer caching
 COPY package*.json ./
 
-RUN npm ci
+RUN npm install
 
 # Now copy the rest of the source and build (if you have a build step)
 COPY . .
