@@ -6,6 +6,11 @@ pipeline {
                 echo 'Check for the working status'
             }
         }
+        stage('Cleanup') {
+            steps {
+                sh 'docker image prune -f'
+            }
+        }
         stage('Build') {
             steps {
                 sh 'docker build -t bashry/dockerapp:latest .'
