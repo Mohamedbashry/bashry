@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                echo 'Check for the working status'
+                echo 'Check for the working status '
             }
         }
         stage('Cleanup') {
