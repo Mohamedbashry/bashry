@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'bashry/dockerapp'
     }
-    
+
     stages {
         stage('Test') {
             steps {
@@ -26,7 +26,7 @@ pipeline {
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'dockerhub-credentials',
-                        usernameVariable: 'bashry',
+                        usernameVariable: 'DOCKER_USERNAME',
                         passwordVariable: 'DOCKER_PASSWORD'
                     )
                 ]) {
