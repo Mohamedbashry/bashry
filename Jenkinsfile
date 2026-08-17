@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_IMAGE = 'bashry/dockerapp'
+    }
+    
     stages {
         stage('Test') {
             steps {
@@ -16,6 +21,24 @@ pipeline {
                 sh 'docker build -t bashry/dockerapp:${BUILD_NUMBER} -t bashry/dockerapp:latest .'
             }
         }
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-credentials',
+                        usernameVariable: 'bashry',
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                        docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                        docker logout
+                    '''
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 sh '''
