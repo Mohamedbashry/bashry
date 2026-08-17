@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t bashry/dockerapp:latest .'
+                sh 'docker build -t bashry/dockerapp:${BUILD_NUMBER} -t bashry/dockerapp:latest .'
             }
         }
         stage('Deploy') {
