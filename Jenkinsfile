@@ -42,9 +42,17 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    docker stop dockerapp-container || true
-                    docker rm dockerapp-container || true
-                    docker run -d --name dockerapp-container -p 3000:3000 --env-file /home/ubuntu/bashry/.env bashry/dockerapp:latest
+                    docker pull ${DOCKER_IMAGE}:${BUILD_NUMBER}
+
+                    docker stop devops-web || true
+
+                    docker rm devops-web || true
+
+                    docker run -d \
+                        --name devops-web \
+                        --restart unless-stopped \
+                        -p 80:80 \
+                        ${DOCKER_IMAGE}:${BUILD_NUMBER}
                 '''
             }
         }
