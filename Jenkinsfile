@@ -43,15 +43,12 @@ pipeline {
             steps {
                 sh '''
                     docker pull ${DOCKER_IMAGE}:${BUILD_NUMBER}
-
                     docker stop devops-web || true
-
                     docker rm devops-web || true
-
                     docker run -d \
                         --name devops-web \
                         --restart unless-stopped \
-                        -p 80:80 \
+                        -p 80:3000 \
                         ${DOCKER_IMAGE}:${BUILD_NUMBER}
                 '''
             }
